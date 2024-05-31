@@ -8,13 +8,60 @@ local itemName = get("item-name", true);
 local itemUrl = get("item-url", true);
 local itemIp = get("item-ip", true);
 
+-- IP ban list, these IPs don't go anywhere
+local banlist = {
+    "1.1.1.1",
+    "localhost",
+    "google.com",
+    "127.0.0.1",
+    "a",
+    "69.69.69",
+    "0.0.0.0",
+    "reserved",
+    "buss://"
+}
+
+local potentialPrefixes = {
+    "",
+    "https://",
+    "http://"
+}
+
 -- Fetch data
-local response = fetch({
+local _response = fetch({
     url = "https://api.buss.lol/domains",
     method = "GET",
     headers = { },
     body = ""
 });
+
+
+-- Process ban list
+local response = {};
+local banned = {}
+
+-- Create all possible combinations of banned addresses and prefixes.
+for index, prefix in pairs(potentialPrefixes) do
+    for j, ban in pairs(banlist) do
+        table.insert(banned, (prefix .. ban));
+    end
+end
+
+-- Filter the list for 'IPs' that start with banned phrases. We want to weed out the majority
+-- of invalid 'IPs'.
+for index, item in pairs(_response) do
+    local ip = item["ip"];
+    local isBanned = false;
+    for j, ban in pairs(banned) do
+        if string.sub(ip, 1, #ban) == ban then
+            isBanned = true;
+            break;
+        end
+    end
+    if isBanned == false then
+        table.insert(response, item);
+    end
+end
 
 -- Main thread
 function main()
@@ -23,6 +70,11 @@ end
 
 -- Declare functions
 ------------------------------------
+-- Get URL of an item
+function getURL(item)
+    return (item["name"] .. "." .. item["tld"]);
+end
+
 -- Clears all items from the results.
 function clearItems()
     for index, item in pairs(items) do
@@ -37,7 +89,7 @@ function displayItem(index, item)
     local ipEl = itemIp[index];
     local urlEl = itemUrl[index];
 
-    local url = "buss://" .. item["name"] .. "." .. item["tld"];
+    local url = "buss://" .. getURL(item);
 
     itemEl.set_opacity(1);
     nameEl.set_content(item["name"]);
@@ -58,8 +110,13 @@ end
 function filterItems(queryString)
     local filtered = {};
     for index, item in pairs(response) do
-        local url = (item["name"] .. "." .. item["tld"]);
+        local url = getURL(item);
+        -- We want pages that have the query in their domain name to be at the top of the results.
+        -- If we find the query inside the 'IP' we want them to be at the bottom, since they might not
+        -- be as relevant.
         if string.find(string.lower(url), string.lower(queryString)) then
+            table.insert(filtered, 1, item);
+        elseif string.find(string.lower(item["ip"]), string.lower(queryString)) then
             table.insert(filtered, item);
         end
     end
