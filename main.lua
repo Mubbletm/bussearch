@@ -21,7 +21,8 @@ local banlist = {
     "@",
     "youtube.com",
     "192",
-    "10."
+    "10.",
+    "lasagna"
 }
 
 local potentialPrefixes = {
