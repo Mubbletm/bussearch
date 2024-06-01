@@ -58,14 +58,16 @@ end
 for index, item in pairs(_response) do
     local ip = item["ip"];
     local isBanned = false;
-    for j, ban in pairs(banned) do
-        if string.sub(ip, 1, #ban) == ban then
-            isBanned = true;
-            break;
+    if not (ip == 'https://minidogg.github.io/catlol/') then
+        for j, ban in pairs(banned) do
+            if string.sub(ip, 1, #ban) == ban then
+                isBanned = true;
+                break;
+            end
         end
-    end
-    if isBanned == false then
-        table.insert(response, item);
+        if isBanned == false then
+            table.insert(response, item);
+        end
     end
 end
 
