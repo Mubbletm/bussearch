@@ -14,12 +14,14 @@ local banlist = {
     "localhost",
     "google.com",
     "127.0.0.1",
-    "a",
     "69.69.69",
     "0.0.0.0",
     "reserved",
     "buss://",
-    "@"
+    "@",
+    "youtube.com",
+    "192",
+    "10."
 }
 
 local potentialPrefixes = {
