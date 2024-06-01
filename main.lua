@@ -128,7 +128,11 @@ end
 
 -- Returns a random item from the list of items.
 function getRandomItem()
-    return response[math.random(#response)];
+    local item = response[math.random(#response)];
+    if not (string.sub(item["ip"], 1,1):find("%D")) then
+        return getRandomItem();
+    end
+    return item;
 end
 
 -- Retrieve the contents of the input and apply the query.
