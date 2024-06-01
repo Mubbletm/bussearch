@@ -18,7 +18,8 @@ local banlist = {
     "69.69.69",
     "0.0.0.0",
     "reserved",
-    "buss://"
+    "buss://",
+    "@"
 }
 
 local potentialPrefixes = {
@@ -66,6 +67,8 @@ end
 -- Main thread
 function main()
     clearItems();
+    get("pages").set_content(#_response .. "");
+    get("ip").set_content((#_response - #response) .. "");
 end
 
 -- Declare functions

@@ -16,6 +16,15 @@ random-button {
     padding: 10px;
 }
 
+small {
+    font-size: 10px;
+}
+
+info {
+    direction: column;
+    align-items: end;
+}
+
 hub-title {
     border-color: deepskyblue;
     border-width: 2px;
