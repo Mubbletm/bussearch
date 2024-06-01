@@ -21,8 +21,7 @@ local banlist = {
     "@",
     "youtube.com",
     "192",
-    "10.",
-    "lasagna"
+    "10."
 }
 
 local potentialPrefixes = {
@@ -59,7 +58,7 @@ end
 for index, item in pairs(_response) do
     local ip = item["ip"];
     local isBanned = false;
-    if not (ip == 'https://minidogg.github.io/catlol/') then
+    if (not (ip == 'https://minidogg.github.io/catlol/')) and (not item["name"].sub(1,7) == "lasagna") then
         for j, ban in pairs(banned) do
             if string.sub(ip, 1, #ban) == ban then
                 isBanned = true;
