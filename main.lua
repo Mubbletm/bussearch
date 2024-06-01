@@ -59,7 +59,7 @@ for index, item in pairs(_response) do
     local ip = item["ip"];
     local isBanned = false;
     local lasagna = "lasagna";
-    if (not (ip == 'https://minidogg.github.io/catlol/')) and (not item["name"].sub(1,#lasagna) == lasagna) then
+    if (not (ip == 'https://minidogg.github.io/catlol/')) and (not (item["name"].sub(1,#lasagna) == lasagna)) then
         for j, ban in pairs(banned) do
             if string.sub(ip, 1, #ban) == ban then
                 isBanned = true;
