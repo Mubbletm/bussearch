@@ -27,7 +27,10 @@ local banlist = {
 local potentialPrefixes = {
     "",
     "https://",
-    "http://"
+    "http://",
+    "http://www.",
+    "https://www.",
+    "www."
 }
 
 -- Fetch data
