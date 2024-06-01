@@ -74,6 +74,8 @@ function main()
     clearItems();
     get("pages").set_content(#_response .. "");
     get("ip").set_content((#_response - #response) .. "");
+    query.set_content('search');
+    applyQuery();
 end
 
 -- Declare functions
@@ -141,7 +143,7 @@ function getRandomItem()
 end
 
 -- Retrieve the contents of the input and apply the query.
-function applyQuery(queryString)
+function applyQuery()
     displayItems(filterItems(query.get_content()));
 end
 
